@@ -1,0 +1,2 @@
+Others-> shortcut to assign every value of vector to 0
+
