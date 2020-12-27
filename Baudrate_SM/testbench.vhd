@@ -6,13 +6,13 @@ ARCHITECTURE tb OF testbench IS
     COMPONENT uart IS
         PORT (
             txclk, valid : IN STD_LOGIC;
-            txDATA : IN STD_LOGIC_VECTOR(0 TO 7);
+            txDATA : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
             UARTout, txBUSY : OUT STD_LOGIC
         );
     END COMPONENT;
     SIGNAL txclk : STD_LOGIC := '0';
     SIGNAL valid : STD_LOGIC;
-    SIGNAL txDATA : STD_LOGIC_VECTOR(0 TO 7);
+    SIGNAL txDATA : STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL UARTout, txBUSY : STD_LOGIC := '0';
 BEGIN
     DUT : uart PORT MAP(txclk, valid, txDATA, UARTout, txBUSY);
@@ -23,8 +23,13 @@ BEGIN
         valid <= '1';
         txDATA <= "10101010";
         
-        WAIT ON txBUSY;
-            valid <= '0';
+        WAIT UNTIL txBUSY='1';
+        valid<='0';
+        WAIT UNTIL txBUSY='0';
+        valid <= '1';
+        txDATA <= "11111010";
+        WAIT UNTIL txBUSY='0';
+        valid<='0';
         WAIT;
     END PROCESS;
 END tb;
