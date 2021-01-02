@@ -8,7 +8,7 @@ ENTITY samp_sm IS
     );
 END samp_sm;
 ARCHITECTURE rtl OF samp_sm IS
-    SIGNAL counter : unsigned(9 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL counter : unsigned(9 DOWNTO 0) := to_unsigned(1, 10);
     CONSTANT divisor : unsigned(9 DOWNTO 0) := to_unsigned(10, 10);
     TYPE state_type IS (IDLE, CNT);
     SIGNAL state : state_type := IDLE;

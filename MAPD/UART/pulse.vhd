@@ -8,7 +8,7 @@ ENTITY pulse_gen IS
     );
 END pulse_gen;
 ARCHITECTURE rtl OF pulse_gen IS
-signal counter : unsigned(9 downto 0):= (others => '0');
+signal counter : unsigned(9 downto 0):= to_unsigned(867,10);
 constant divisor: unsigned(9 downto 0):= to_unsigned(867,10);
 BEGIN -- architecture rtl
     main : PROCESS (clk) IS

@@ -14,12 +14,12 @@ ARCHITECTURE rtl OF UART_R IS
             rec_out : OUT STD_LOGIC
         );
     END COMPONENT main_sm;
-    COMPONENT samp_tot IS
+    COMPONENT samp IS
         PORT (
             CLK, UART_RX : IN STD_LOGIC;
             BAUD_OUT : OUT STD_LOGIC
         );
-    END COMPONENT samp_tot;
+    END COMPONENT samp;
     SIGNAL BAUD : STD_LOGIC;
 BEGIN -- architecture rtl
     sm : main_sm
@@ -29,7 +29,7 @@ BEGIN -- architecture rtl
         baud_in => BAUD,
         rec_out => DATA
     );
-    smp : samp_tot
+    smp : samp
     PORT MAP(
         CLK => CLK,
         UART_RX => UART_RX,

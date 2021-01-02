@@ -8,7 +8,7 @@ ENTITY main_sm IS
     );
 END main_sm;
 ARCHITECTURE rtl OF main_sm IS
-    TYPE state_type IS (IDLE, RD0, RD1, RD2, RD3, RD4, RD5, RD6, RD7, IDLE);
+    TYPE state_type IS (IDLE, RD0, RD1, RD2, RD3, RD4, RD5, RD6, RD7, STOP);
     SIGNAL state : state_type := IDLE;
 BEGIN -- architecture rtl
     main : PROCESS (clk) IS
@@ -16,7 +16,7 @@ BEGIN -- architecture rtl
         IF (rising_edge(CLK)) THEN
             CASE state IS
                 WHEN IDLE =>
-                    IF baud_in = '1' THEN
+                    IF baud_in = '1' AND uart_rx = '0' THEN
                         state <= RD0;
                     END IF;
                 WHEN RD0 =>
@@ -57,10 +57,14 @@ BEGIN -- architecture rtl
                 WHEN RD7 =>
                     IF baud_in = '1' THEN
                         rec_out <= uart_rx;
+                        state <= STOP;
+                    END IF;
+                WHEN STOP =>
+                    IF baud_in = '1' THEN
                         state <= IDLE;
+                        rec_out <= '0';
                     END IF;
             END CASE;
-
         END IF;
     END PROCESS main;
 END ARCHITECTURE rtl;

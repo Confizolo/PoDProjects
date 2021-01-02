@@ -24,11 +24,6 @@ BEGIN
 
         WAIT UNTIL txBUSY = '1';
         valid <= '0';
-        WAIT UNTIL txBUSY = '0';
-        valid <= '1';
-        txDATA <= "11111010";
-        WAIT UNTIL txBUSY = '0';
-        valid <= '0';
         WAIT;
     END PROCESS;
 END tb;
