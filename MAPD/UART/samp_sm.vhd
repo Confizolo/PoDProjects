@@ -8,9 +8,9 @@ ENTITY samp_sm IS
     );
 END samp_sm;
 ARCHITECTURE rtl OF samp_sm IS
-    SIGNAL counter : unsigned(9 DOWNTO 0) := to_unsigned(1, 10);
+    SIGNAL counter : unsigned(9 DOWNTO 0) := (OTHERS => '0');
     CONSTANT divisor : unsigned(9 DOWNTO 0) := to_unsigned(10, 10);
-    TYPE state_type IS (IDLE, CNT);
+    TYPE state_type IS (IDLE, CNT, STOP);
     SIGNAL state : state_type := IDLE;
 BEGIN -- architecture rtl
     main : PROCESS (clk) IS
@@ -20,7 +20,7 @@ BEGIN -- architecture rtl
                 WHEN IDLE =>
                     IF uart_in = '0' THEN
                         enable <= '1';
-                        counter <= (others => '0');
+                        counter <= (OTHERS => '0');
                         state <= CNT;
                     ELSE
                         enable <= '0';
@@ -30,9 +30,14 @@ BEGIN -- architecture rtl
                         counter <= counter + 1;
                     END IF;
                     IF counter = divisor THEN
-                        state <= IDLE;
+                        state <= STOP;
+                        enable <= '0';
                     ELSE
                         enable <= '1';
+                    END IF;
+                WHEN STOP =>
+                    IF uart_in = '1' THEN
+                        state <= CNT;
                     END IF;
             END CASE;
         END IF;

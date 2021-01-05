@@ -16,7 +16,9 @@ BEGIN -- architecture rtl
         IF (rising_edge(CLK)) THEN
             CASE state IS
                 WHEN IDLE =>
-                    IF baud_in = '1' AND uart_rx = '0' THEN
+                    rec_out <= '1';
+                    IF baud_in = '1' THEN
+                        rec_out <= uart_rx;
                         state <= RD0;
                     END IF;
                 WHEN RD0 =>
