@@ -27,6 +27,14 @@ BEGIN
     PROCESS
     BEGIN
         WAIT FOR 100 ns;
+        -- Value 32
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
         WAIT FOR 17360 ns;
         ser_i <= '0';
         WAIT FOR 17360 ns;
@@ -38,6 +46,49 @@ BEGIN
         WAIT FOR 17360 ns;
         ser_i <= '0';
         WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+
+        -- Value 125
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        -- Value 95
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
         ser_i <= '1';
         WAIT FOR 17360 ns;
         ser_i <= '1';
@@ -45,6 +96,34 @@ BEGIN
         ser_i <= '0';
         WAIT FOR 17360 ns;
         ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        -- Value 56
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '1';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+        WAIT FOR 17360 ns;
+        ser_i <= '0';
+
         WAIT FOR 17360 ns;
         ser_i <= '0';
         WAIT FOR 17360 ns;
