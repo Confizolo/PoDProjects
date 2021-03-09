@@ -14,7 +14,7 @@ ARCHITECTURE rtl OF samp_del IS
 BEGIN -- architecture rtl
     main : PROCESS (clk) IS
     BEGIN -- process main
-        IF (rising_edge(CLK)) THEN
+        IF (rising_edge(clk)) THEN
             IF pulse_out = '1' THEN
                 buff <= '1';
             END IF;

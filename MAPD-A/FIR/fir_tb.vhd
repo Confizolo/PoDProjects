@@ -1,82 +1,93 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-use STD.textio.all;
+USE STD.textio.ALL;
 -------------------------------------------------------------------------------
 
-entity fir_filter_4_tb is
+ENTITY fir_filter_4_tb IS
 
-end entity fir_filter_4_tb;
+END ENTITY fir_filter_4_tb;
 
 -------------------------------------------------------------------------------
-
-architecture test of fir_filter_4_tb is
-
+ARCHITECTURE test OF fir_filter_4_tb IS
+  COMPONENT fir_filter_4 IS
+    PORT (
+      i_clk : IN STD_LOGIC;
+      i_rstb : IN STD_LOGIC;
+      -- coefficient
+      i_coeff_0 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      i_coeff_1 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      i_coeff_2 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      i_coeff_3 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      -- data input
+      i_data : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      -- filtered data 
+      o_data : OUT STD_LOGIC_VECTOR(9 DOWNTO 0));
+  END COMPONENT;
   -- component ports
-  signal i_clk      : std_logic                    := '0';    -- [in]
-  signal i_rstb     : std_logic;                              -- [in]
-  signal i_coeff_0  : std_logic_vector(7 downto 0) := X"B2";  -- [in]
-  signal i_coeff_1  : std_logic_vector(7 downto 0) := X"01";  -- [in]
-  signal i_coeff_2  : std_logic_vector(7 downto 0) := X"ff";  -- [in]
-  signal i_coeff_3  : std_logic_vector(7 downto 0) := X"ff";  -- [in]
-  signal i_data     : std_logic_vector(7 downto 0) := X"B2";  -- [in]
-  signal o_data     : std_logic_vector(9 downto 0);           -- [out]
-  signal clk_enable : boolean                      := true; 
-  constant c_WIDTH  : natural                      := 8;
-  file file_VECTORS : text;
-  file file_RESULTS : text;
+  SIGNAL i_clk : STD_LOGIC := '0'; -- [in]
+  SIGNAL i_rstb : STD_LOGIC; -- [in]
+  SIGNAL i_coeff_0 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"B2"; -- [in]
+  SIGNAL i_coeff_1 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"01"; -- [in]
+  SIGNAL i_coeff_2 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"ff"; -- [in]
+  SIGNAL i_coeff_3 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"ff"; -- [in]
+  SIGNAL i_data : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"B2"; -- [in]
+  SIGNAL o_data : STD_LOGIC_VECTOR(9 DOWNTO 0); -- [out]
+  SIGNAL clk_enable : BOOLEAN := true;
+  CONSTANT c_WIDTH : NATURAL := 8;
+  FILE file_VECTORS : text;
+  FILE file_RESULTS : text;
 
   -- clock
 
-begin  -- architecture test
+BEGIN -- architecture test
 
   -- component instantiation
-  DUT : entity work.fir_filter_4
-    port map (
-      i_clk     => i_clk,       
-      i_rstb    => i_rstb,      
-      i_coeff_0 => i_coeff_0,       
-      i_coeff_1 => i_coeff_1,       
-      i_coeff_2 => i_coeff_2,       
-      i_coeff_3 => i_coeff_3,       
-      i_data    => i_data,          
-      o_data    => o_data);         
+  DUT : fir_filter_4
+  PORT MAP(
+    i_clk => i_clk,
+    i_rstb => i_rstb,
+    i_coeff_0 => i_coeff_0,
+    i_coeff_1 => i_coeff_1,
+    i_coeff_2 => i_coeff_2,
+    i_coeff_3 => i_coeff_3,
+    i_data => i_data,
+    o_data => o_data);
 
   -- clock generation
-  i_clk <= not i_clk after 10 ns when clk_enable = true
-           else '0';
+  i_clk <= NOT i_clk AFTER 10 ns WHEN clk_enable = true
+    ELSE
+    '0';
   -- waveform generation
-  WaveGen_Proc : process
-    variable CurrentLine    : line;
-    variable v_ILINE        : line;
-    variable v_OLINE        : line;
-    variable i_data_integer : integer := 0;
-    variable o_data_integer : integer := 0;
-    variable i_data_slv     : std_logic_vector(7 downto 0);
-  begin
+  WaveGen_Proc : PROCESS
+    VARIABLE CurrentLine : line;
+    VARIABLE v_ILINE : line;
+    VARIABLE v_OLINE : line;
+    VARIABLE i_data_integer : INTEGER := 0;
+    VARIABLE o_data_integer : INTEGER := 0;
+    VARIABLE i_data_slv : STD_LOGIC_VECTOR(7 DOWNTO 0);
+  BEGIN
     -- insert signal assignments here
     file_open(file_VECTORS, "input_vectors.txt", read_mode);
     file_open(file_RESULTS, "output_results.txt", write_mode);
     i_rstb <= '0';
-    wait until rising_edge(i_clk);
-    wait until rising_edge(i_clk);
+    WAIT UNTIL rising_edge(i_clk);
+    WAIT UNTIL rising_edge(i_clk);
     i_rstb <= '1';
-    while not endfile(file_VECTORS) loop
+    WHILE NOT endfile(file_VECTORS) LOOP
       readline(file_VECTORS, v_ILINE);
       read(v_ILINE, i_data_integer);
-      i_data         <= std_logic_vector(to_signed(i_data_integer, i_data'length));
-      wait until rising_edge(i_clk);
+      i_data <= STD_LOGIC_VECTOR(to_signed(i_data_integer, i_data'length));
+      WAIT UNTIL rising_edge(i_clk);
       o_data_integer := to_integer(signed(o_data));
       write(v_OLINE, o_data_integer, left, c_WIDTH);
       writeline(file_RESULTS, v_OLINE);
-    end loop;
+    END LOOP;
     file_close(file_VECTORS);
     file_close(file_RESULTS);
     clk_enable <= false;
-    wait;
-  end process WaveGen_Proc;
+    WAIT;
+  END PROCESS WaveGen_Proc;
 
-
-
-end architecture test;
+END ARCHITECTURE test;

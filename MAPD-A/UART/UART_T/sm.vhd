@@ -1,115 +1,115 @@
-LIBRARY IEEE;
-USE IEEE.std_logic_1164.ALL;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
 -- entity
-ENTITY my_fsm IS
+ENTITY fsm IS
     PORT (
-        DATA_EN : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-        CLK, BOUD_OUT, VALID : IN STD_LOGIC;
-        UARTtx, BUSY
+        data_en : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+        clk, baud_out, valid : IN STD_LOGIC;
+        uart_tx, busy
         : OUT STD_LOGIC);
-END my_fsm;
-ARCHITECTURE fsm OF my_fsm IS
-    TYPE state_type IS (IDLE, START_S, START, RD0, RD1, RD2, RD3, RD4, RD5, RD6, RD7, STOP);
+END fsm;
+ARCHITECTURE rtl OF fsm IS
+    TYPE state_type IS (idle, start_s, start, rd0, rd1, rd2, rd3, rd4, rd5, rd6, rd7, stop);
     SIGNAL state : state_type;
 BEGIN
-    sync_proc : PROCESS (CLK)
+    sync_proc : PROCESS (clk)
     BEGIN
-        IF (rising_edge(CLK)) THEN
+        IF (rising_edge(clk)) THEN
 
             CASE state IS
-                WHEN IDLE => 
-                    BUSY
+                WHEN idle =>
+                    busy
                     <= '0';
-                    UARTtx 
+                    uart_tx
                     <= '1';
-                    IF VALID = '1' THEN
-                        state <= START_S;
+                    IF valid = '1' THEN
+                        state <= start_s;
                     END IF;
-                WHEN START_S => 
-                    BUSY
+                WHEN start_s =>
+                    busy
                     <= '1';
-                    IF BOUD_OUT='1' THEN
-                        state <= START;
+                    IF baud_out = '1' THEN
+                        state <= start;
                     END IF;
-                WHEN START => 
-                    BUSY
+                WHEN start =>
+                    busy
                     <= '1';
-                    UARTtx <= '0';
-                    IF BOUD_OUT='1' THEN
-                        state <= RD0;
+                    uart_tx <= '0';
+                    IF baud_out = '1' THEN
+                        state <= rd0;
                     END IF;
-                WHEN RD0 =>
-                    BUSY
-                    <= '1'; 
-                    UARTtx <= DATA_EN(0);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD1;
-                    END IF;
-                WHEN RD1 =>
-                    BUSY
-                    <= '1'; 
-                    UARTtx <= DATA_EN(1);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD2;
-                    END IF;
-                WHEN RD2 =>
-                    BUSY
+                WHEN rd0 =>
+                    busy
                     <= '1';
-                    UARTtx <= DATA_EN(2);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD3;
+                    uart_tx <= data_en(0);
+                    IF baud_out = '1' THEN
+                        state <= rd1;
                     END IF;
-                WHEN RD3 =>
-                    BUSY
-                    <= '1'; 
-                    UARTtx <= DATA_EN(3);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD4;
-                    END IF;
-                WHEN RD4 =>
-                    BUSY
+                WHEN rd1 =>
+                    busy
                     <= '1';
-                    UARTtx <= DATA_EN(4);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD5;
+                    uart_tx <= data_en(1);
+                    IF baud_out = '1' THEN
+                        state <= rd2;
                     END IF;
-                WHEN RD5 =>
-                    BUSY
-                    <= '1'; 
-                    UARTtx <= DATA_EN(5);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD6;
-                    END IF;
-                WHEN RD6 =>
-                    BUSY
+                WHEN rd2 =>
+                    busy
                     <= '1';
-                    UARTtx <= DATA_EN(6);
-                    IF BOUD_OUT='1' THEN
-                        state <= RD7;
+                    uart_tx <= data_en(2);
+                    IF baud_out = '1' THEN
+                        state <= rd3;
                     END IF;
-                WHEN RD7 =>
-                    BUSY
-                    <= '1'; 
-                    UARTtx <= DATA_EN(7);
-                    IF BOUD_OUT='1' THEN
-                        state <= STOP;
+                WHEN rd3 =>
+                    busy
+                    <= '1';
+                    uart_tx <= data_en(3);
+                    IF baud_out = '1' THEN
+                        state <= rd4;
                     END IF;
-                WHEN STOP => 
-                    UARTtx 
+                WHEN rd4 =>
+                    busy
+                    <= '1';
+                    uart_tx <= data_en(4);
+                    IF baud_out = '1' THEN
+                        state <= rd5;
+                    END IF;
+                WHEN rd5 =>
+                    busy
+                    <= '1';
+                    uart_tx <= data_en(5);
+                    IF baud_out = '1' THEN
+                        state <= rd6;
+                    END IF;
+                WHEN rd6 =>
+                    busy
+                    <= '1';
+                    uart_tx <= data_en(6);
+                    IF baud_out = '1' THEN
+                        state <= rd7;
+                    END IF;
+                WHEN rd7 =>
+                    busy
+                    <= '1';
+                    uart_tx <= data_en(7);
+                    IF baud_out = '1' THEN
+                        state <= stop;
+                    END IF;
+                WHEN stop =>
+                    uart_tx
                     <= '0';
-                    BUSY
-                    <= '0';
-                    IF BOUD_OUT='1' THEN
-                        state <= IDLE;
+                    busy
+                    <= '1';
+                    IF baud_out = '1' THEN
+                        state <= idle;
                     END IF;
                 WHEN OTHERS =>
                     -- the catch-all condition
-                    BUSY
+                    busy
                     <= '0';
                     -- arbitrary; it should never
-                    state <= IDLE;
+                    state <= idle;
                     -- make it to these two statements
             END CASE;
         END IF;
     END PROCESS sync_proc;
-END fsm;
+END rtl;

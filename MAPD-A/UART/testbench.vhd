@@ -1,28 +1,31 @@
-LIBRARY IEEE;
-USE IEEE.std_logic_1164.ALL;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
 ENTITY testbench IS
 END testbench;
 ARCHITECTURE tb OF testbench IS
     COMPONENT total IS
-    PORT (
-        clk, valid : IN STD_LOGIC;
-        txDATA : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-        UARTout, txBUSY : OUT STD_LOGIC
-    );
+        PORT (
+            clk, valid_in : IN STD_LOGIC;
+            tx_data : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+            tx_busy : OUT STD_LOGIC;
+            g_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+        );
     END COMPONENT;
-    SIGNAL clk, valid : std_logic := '0';
-    SIGNAL txDATA : STD_LOGIC_VECTOR(7 DOWNTO 0) ;
-    SIGNAL UARTout, txBUSY : std_logic := '0';
+    SIGNAL clk : STD_LOGIC := '0';
+    SIGNAL valid : STD_LOGIC := '0';
+    SIGNAL tx_data : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL tx_busy : STD_LOGIC := '0';
+    SIGNAL g_out : STD_LOGIC_VECTOR(7 DOWNTO 0);
 BEGIN
-    DUT : total PORT MAP(clk,valid,txDATA,UARTout, txBUSY);
+    dut : total PORT MAP(clk, valid, tx_data, tx_busy, g_out);
     clk <= NOT clk AFTER 10 ns;
     PROCESS
     BEGIN
         WAIT FOR 1000 ns;
         valid <= '1';
-        txDATA <= "10101010";
+        tx_data <= "10101011";
 
-        WAIT UNTIL txBUSY = '1';
+        WAIT UNTIL tx_busy = '1';
         valid <= '0';
         WAIT;
     END PROCESS;

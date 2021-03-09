@@ -1,38 +1,41 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-ENTITY UART_R IS
+ENTITY uart_r IS
     PORT (
-        CLK, UART_RX : IN STD_LOGIC;
-        VALID, DATA : OUT STD_LOGIC
+        clk, uart_rx : IN STD_LOGIC;
+        valid : OUT STD_LOGIC;
+        data : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
-END UART_R;
-ARCHITECTURE rtl OF samp IS
-    COMPONENT main IS
+END uart_r;
+ARCHITECTURE rtl OF uart_r IS
+    COMPONENT main_sm IS
         PORT (
             clk, uart_rx, baud_in : IN STD_LOGIC;
-            rec_out : OUT STD_LOGIC
+            valid : OUT STD_LOGIC;
+            rec_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
         );
-    END COMPONENT main;
+    END COMPONENT main_sm;
     COMPONENT samp IS
         PORT (
-            CLK, UART_RX : IN STD_LOGIC;
-            BAUD_OUT : OUT STD_LOGIC
+            clk, uart_rx : IN STD_LOGIC;
+            baud_out : OUT STD_LOGIC
         );
     END COMPONENT samp;
-    SIGNAL BAUD : STD_LOGIC;
+    SIGNAL baud : STD_LOGIC;
 BEGIN -- architecture rtl
-    main : main
+    sm : main_sm
     PORT MAP(
-        CLK => clk,
-        UART_RX => uart_rx,
-        BAUD => baud_in,
-        rec_out => DATA
+        clk => clk,
+        uart_rx => uart_rx,
+        baud_in => baud,
+        valid => valid,
+        rec_out => data
     );
-    samp : samp
+    smp : samp
     PORT MAP(
-        CLK => CLK,
-        UART_RX => UART_RX,
-        BAUD_OUT => BAUD
+        clk => clk,
+        uart_rx => uart_rx,
+        baud_out => baud
     );
 END ARCHITECTURE rtl;
