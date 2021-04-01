@@ -5,13 +5,13 @@ USE ieee.numeric_std.ALL;
 USE STD.textio.ALL;
 -------------------------------------------------------------------------------
 
-ENTITY fir_filter_4_tb IS
+ENTITY fir_filter_5_tb IS
 
-END ENTITY fir_filter_4_tb;
+END ENTITY fir_filter_5_tb;
 
 -------------------------------------------------------------------------------
-ARCHITECTURE test OF fir_filter_4_tb IS
-  COMPONENT fir_filter_4 IS
+ARCHITECTURE test OF fir_filter_5_tb IS
+  COMPONENT fir_filter_5 IS
     PORT (
       i_clk : IN STD_LOGIC;
       i_rstb : IN STD_LOGIC;
@@ -20,6 +20,7 @@ ARCHITECTURE test OF fir_filter_4_tb IS
       i_coeff_1 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       i_coeff_2 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       i_coeff_3 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      i_coeff_4 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       -- data input
       i_data : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
       -- filtered data 
@@ -28,10 +29,11 @@ ARCHITECTURE test OF fir_filter_4_tb IS
   -- component ports
   SIGNAL i_clk : STD_LOGIC := '0'; -- [in]
   SIGNAL i_rstb : STD_LOGIC; -- [in]
-  SIGNAL i_coeff_0 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"0C"; -- [in]
-  SIGNAL i_coeff_1 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"73"; -- [in]
-  SIGNAL i_coeff_2 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"73"; -- [in]
-  SIGNAL i_coeff_3 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"0C"; -- [in]
+  SIGNAL i_coeff_0 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"09"; -- [in]
+  SIGNAL i_coeff_1 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"3D"; -- [in]
+  SIGNAL i_coeff_2 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"72"; -- [in]
+  SIGNAL i_coeff_3 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"3D"; -- [in]
+  SIGNAL i_coeff_4 : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"09"; -- [in]
   SIGNAL i_data : STD_LOGIC_VECTOR(7 DOWNTO 0) := X"B2"; -- [in]
   SIGNAL o_data : STD_LOGIC_VECTOR(7 DOWNTO 0); -- [out]
   SIGNAL clk_enable : BOOLEAN := true;
@@ -44,7 +46,7 @@ ARCHITECTURE test OF fir_filter_4_tb IS
 BEGIN -- architecture test
 
   -- component instantiation
-  DUT : fir_filter_4
+  DUT : fir_filter_5
   PORT MAP(
     i_clk => i_clk,
     i_rstb => i_rstb,
@@ -52,13 +54,14 @@ BEGIN -- architecture test
     i_coeff_1 => i_coeff_1,
     i_coeff_2 => i_coeff_2,
     i_coeff_3 => i_coeff_3,
+    i_coeff_4 => i_coeff_4,
     i_data => i_data,
     o_data => o_data);
 
   -- clock generation
   i_clk <= NOT i_clk AFTER 10 ns WHEN clk_enable = true
-    ELSE
-    '0';
+  ELSE
+  '0';
   -- waveform generation
   WaveGen_Proc : PROCESS
     VARIABLE CurrentLine : line;
