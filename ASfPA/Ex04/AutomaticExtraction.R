@@ -1,3 +1,7 @@
+#This R script allows to check the results of an automatic extraction from a randomly selected box of marbles and then perform Bayesian inference on the box that was extracted
+
+
+
 library(tidyverse, quiet = TRUE)
 user_up = function(s) {
     if (s==0) c(0,1/5,2/5,3/5,4/5,1)
@@ -22,7 +26,7 @@ boxes = list(h1,h2,h3,h4,h5,h6)
                  
 box = sample(1:6,1, replace = TRUE)
 
-message("Choosen box: ",paste0("H",box),"\n")
+message("The extracted box is ",paste0("H",box),"\n")
                  
 inp = c()
 ask = FALSE

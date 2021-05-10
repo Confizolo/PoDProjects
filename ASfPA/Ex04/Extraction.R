@@ -1,3 +1,5 @@
+#This R script allows to manually insert sampling results for a 6 boxes experiment and then perform Bayesian inference on the possible extracted box
+
 library(tidyverse, quiet = TRUE)
 user_up = function(s) {
     if (s==0) c(0,1/5,2/5,3/5,4/5,1)
