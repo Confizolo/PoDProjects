@@ -146,20 +146,20 @@ class StandardAE(pl.LightningModule):
         z = self.forward(x)
 
         loss = self.loss_fn(z, x) 
-        self.log(loss_name, loss)
+        self.log(loss_name, loss, on_epoch=True, on_step=True)
         return loss
     
     def validation_step(self, batch, batch_idx, loss_name = 'val_loss'):
         x, y = batch
         z = self.forward(x)
         loss = self.loss_fn(z, x) 
-        self.log(loss_name, loss, prog_bar=True)
+        self.log(loss_name, loss, prog_bar=True, on_epoch=True, on_step=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch #now labels matter!
         z = self.forward(x)
-        self.log('accuracy', self.accuracy(z, y), prog_bar=True)
+        self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
 
 class DenoisingAE(pl.LightningModule):
@@ -202,20 +202,20 @@ class DenoisingAE(pl.LightningModule):
         z = self.forward(x)
 
         loss = self.loss_fn(z, x) 
-        self.log(loss_name, loss)
+        self.log(loss_name, loss, on_epoch=True, on_step=True)
         return loss
     
     def validation_step(self, batch, batch_idx, loss_name = 'val_loss'):
         x, y = batch
         z = self.forward(x)
         loss = self.loss_fn(z, x) 
-        self.log(loss_name, loss, prog_bar=True)
+        self.log(loss_name, loss, prog_bar=True, on_epoch=True, on_step=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch #now labels matter!
         z = self.forward(x)
-        self.log('accuracy', self.accuracy(z, y), prog_bar=True)
+        self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
 
 class VariationalAE(pl.LightningModule):
@@ -224,28 +224,32 @@ class VariationalAE(pl.LightningModule):
     def __init__(self, hyper,  device = "cpu"):
         super().__init__()
 
+        self.device_data = device
         self.hyper = hyper 
 
-        self.loss_fn = nn.MSELoss()
-
-        self.encoder = Encoder(encoded_space_dim = self.hyper["out_linear_size"],act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"], linear_size = self.hyper["linear_size"], device = device)
+        self.encoder = Encoder(encoded_space_dim = self.hyper["out_linear_size"], act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"], linear_size = self.hyper["linear_size"], device = device)
 
         self.linear2 = nn.Linear(self.hyper["out_linear_size"], self.hyper['encoded_space_dim']).to(device)
         self.linear3 = nn.Linear(self.hyper["out_linear_size"], self.hyper['encoded_space_dim']).to(device)
         
-        self.N = torch.distributions.Normal(0, 1)
-
         self.decoder = Decoder(encoded_space_dim = self.hyper['encoded_space_dim'],act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"][::-1], linear_size = self.hyper["linear_size"], device = device)
+
+        self.loss_fn = nn.functional.binary_cross_entropy
+        
+    def reparameterization(self, mean, var):
+        epsilon = torch.randn_like(var).to(self.device_data)        # sampling epsilon        
+        z = mean + var*epsilon                          # reparameterization trick
+        return z
 
     def forward(self, x):
         # Apply encoder
         x = self.encoder(x)
 
-        mu =  self.linear2(x)
-        sigma = torch.exp(self.linear3(x))
-        
-        x = mu + sigma*self.N.sample(mu.shape)
-        self.kl = (sigma**2 + mu**2 - torch.log(sigma) - 1/2).sum()
+        mean =  self.linear2(x).to(self.device_data)
+        log_var = self.linear3(x).to(self.device_data)
+
+        x = self.reparameterization(mean, torch.exp(0.5 * log_var))
+        self.kl = - 0.5 * torch.sum(1+ log_var - mean.pow(2) - log_var.exp())
 
         # Apply decoder
         x = self.decoder(x)
@@ -268,21 +272,21 @@ class VariationalAE(pl.LightningModule):
         x, y = batch
         z = self.forward(x)
 
-        loss = self.loss_fn(z, x) + self.kl
-        self.log(loss_name, loss)
+        loss = self.loss_fn(z, x, reduction="sum") + self.kl
+        self.log(loss_name, loss, on_epoch=True, on_step=True)
         return loss
     
     def validation_step(self, batch, batch_idx, loss_name = 'val_loss'):
         x, y = batch
         z = self.forward(x)
-        loss = self.loss_fn(z, x) + self.kl
-        self.log(loss_name, loss, prog_bar=True)
+        loss = self.loss_fn(z, x, reduction = "sum") + self.kl
+        self.log(loss_name, loss, prog_bar=True, on_epoch=True, on_step=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch #now labels matter!
         z = self.forward(x)
-        self.log('accuracy', self.accuracy(z, y), prog_bar=True)
+        self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
 
 
@@ -325,26 +329,26 @@ class SupervisedCAE(pl.LightningModule):
     def forward(self,  x):
 
         x = self.encoder(x)
-
-        return self.fine_tuner(x)
+        x = self.fine_tuner(x)
+        return x
 
     def training_step(self, batch, batch_idx,  loss_name = 'train_loss'):
         x, y = batch
         z = self.forward(x)
         loss = self.loss_fn(z, y)
-        self.log(loss_name, loss)
+        self.log(loss_name, loss, on_epoch=True, on_step=True)
         return loss
     
     def validation_step(self, batch, batch_idx, loss_name = 'val_loss'):
         x, y = batch
         z = self.forward(x)
         loss = self.loss_fn(z, y)
-        self.log(loss_name, loss, prog_bar=True)
+        self.log(loss_name, loss, prog_bar=True, on_epoch=True, on_step=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch 
         z = self.forward(x)
-        self.log('accuracy', self.accuracy(z, y), prog_bar=True)
+        self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
     

@@ -15,8 +15,8 @@ def return_objective(model,train_dataset, EPOCHS, device):
         in_channels = [trial.suggest_int("in_channels_0", 10, 80,step=10),
                             trial.suggest_int("in_channels_1", 10, 80,step=10),
                             trial.suggest_int("in_channels_2", 10, 80,step=10)]
-        linear_size = trial.suggest_int("linear_size", 10, 80,step=10)
-        out_linear_size = trial.suggest_int("out_linear_size", 10, 200,step=10)
+        linear_size = trial.suggest_int("linear_size", 10, 120,step=10)
+        out_linear_size = trial.suggest_int("out_linear_size", 10, 260,step=10)
         encoded_space_dim = trial.suggest_int("encoded_space_dim", 1, 50, step=1)
         
         #try Adam and SGD
