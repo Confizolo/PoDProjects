@@ -11,7 +11,9 @@ from pytorch_lightning.loggers import LightningLoggerBase
 
 def return_objective(model,train_dataset, EPOCHS, device):
     def objective(trial):
-        # Try different 
+
+        # Try different architectures for the network through a random sampling of structural variables
+
         in_channels = [trial.suggest_int("in_channels_0", 10, 80,step=10),
                             trial.suggest_int("in_channels_1", 10, 80,step=10),
                             trial.suggest_int("in_channels_2", 10, 80,step=10)]
@@ -23,9 +25,11 @@ def return_objective(model,train_dataset, EPOCHS, device):
         optimizer_name = trial.suggest_categorical("optimizer", ["Adam", "SGD"])
         momentum = trial.suggest_float("momentum", 0.0, 1.0)
 
+        # Learning rate and regularization parameter
         lr = trial.suggest_float("lr", 1e-5, 1,log=True)
         reg = trial.suggest_float("reg", 1e-5, 1e-2,log=True)
 
+        # Batch size
         batch_size=trial.suggest_int("batch_size", 64, 128*3,step=32)
         
         ### Define train dataloader
@@ -33,9 +37,12 @@ def return_objective(model,train_dataset, EPOCHS, device):
         train_dataloader = DataLoader(train_dataset_split, batch_size=batch_size, shuffle=True, num_workers=torch.get_num_threads())
         val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=torch.get_num_threads())
 
+        # Model instantiation
         model_in = model({"opt":optimizer_name,"lr":lr,"reg":0,"encoded_space_dim":encoded_space_dim,
                          "act_func":nn.ReLU, "linear_size": linear_size, "in_channels":in_channels,
                           "out_linear_size":out_linear_size, "reg":reg, "mom":momentum}, device=device)
+
+        # Trainer function creation
 
         trainer = pl.Trainer(
         logger=True,
@@ -48,8 +55,6 @@ def return_objective(model,train_dataset, EPOCHS, device):
         )
 
         trainer.fit(model_in,train_dataloader,val_dataloaders=val_dataloader)
-
-        return  trainer.callback_metrics["val_loss"].item()
 
     return objective
 

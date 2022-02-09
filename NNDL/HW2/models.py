@@ -114,9 +114,9 @@ class StandardAE(pl.LightningModule):
         self.hyper = hyper 
 
         self.loss_fn = nn.MSELoss()
-
+        
         self.encoder = Encoder(encoded_space_dim = self.hyper['encoded_space_dim'],act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"], linear_size = self.hyper["linear_size"], device = device)
-
+        
         self.decoder = Decoder(encoded_space_dim = self.hyper['encoded_space_dim'],act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"][::-1], linear_size = self.hyper["linear_size"], device = device)
 
         
@@ -157,7 +157,7 @@ class StandardAE(pl.LightningModule):
         return loss
 
     def test_step(self, batch, batch_idx):
-        x, y = batch #now labels matter!
+        x, y = batch 
         z = self.forward(x)
         self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
@@ -213,7 +213,7 @@ class DenoisingAE(pl.LightningModule):
         return loss
 
     def test_step(self, batch, batch_idx):
-        x, y = batch #now labels matter!
+        x, y = batch 
         z = self.forward(x)
         self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
@@ -229,6 +229,7 @@ class VariationalAE(pl.LightningModule):
 
         self.encoder = Encoder(encoded_space_dim = self.hyper["out_linear_size"], act_func = self.hyper["act_func"],in_channels = self.hyper["in_channels"], linear_size = self.hyper["linear_size"], device = device)
 
+        # instantiation of the two linear layers giving means and variances
         self.linear2 = nn.Linear(self.hyper["out_linear_size"], self.hyper['encoded_space_dim']).to(device)
         self.linear3 = nn.Linear(self.hyper["out_linear_size"], self.hyper['encoded_space_dim']).to(device)
         
@@ -237,17 +238,19 @@ class VariationalAE(pl.LightningModule):
         self.loss_fn = nn.functional.binary_cross_entropy
         
     def reparameterization(self, mean, var):
-        epsilon = torch.randn_like(var).to(self.device_data)        # sampling epsilon        
-        z = mean + var*epsilon                          # reparameterization trick
+        eps = torch.randn_like(var).to(self.device_data)        # Sampling a random variable       
+        z = mean + var*eps                                     # Reparametrization
         return z
 
     def forward(self, x):
         # Apply encoder
         x = self.encoder(x)
 
+        # Calculating arrays of means from the previous layer of the network
         mean =  self.linear2(x).to(self.device_data)
         log_var = self.linear3(x).to(self.device_data)
 
+        # Reparametrization and Kullback-Leibler divergence calculation
         x = self.reparameterization(mean, torch.exp(0.5 * log_var))
         self.kl = - 0.5 * torch.sum(1+ log_var - mean.pow(2) - log_var.exp())
 
@@ -284,7 +287,7 @@ class VariationalAE(pl.LightningModule):
         return loss
 
     def test_step(self, batch, batch_idx):
-        x, y = batch #now labels matter!
+        x, y = batch 
         z = self.forward(x)
         self.log('accuracy', self.accuracy(z, y), prog_bar=True, on_epoch=True, on_step=True)
         return self.accuracy(z, y)
@@ -302,9 +305,11 @@ class SupervisedCAE(pl.LightningModule):
 
         self.encoder.load_state_dict(state_dict = torch.load(PATH))
 
+        # Prevent Encoder training
         for param in self.encoder.parameters():
             param.requires_grad = False
 
+        # Fine tuning section
         self.fine_tuner =  nn.Sequential(nn.Linear(self.hyper['encoded_space_dim'],self.hyper["out_linear_size"]),
                                          nn.ReLU(),
                                          nn.Linear(self.hyper["out_linear_size"], 10),
