@@ -19,21 +19,25 @@ def plot_result(img, ax):
     plt.tight_layout()
 
 def multiple_plot(plot_func, grid_size, figsize , args):
-     # Plot a series of images in greyscale
+     '''
+     plot a serie of images in greyscale
+     ''' 
      fig, axes = plt.subplots(nrows=grid_size[0],ncols=grid_size[1], figsize=figsize)
      for  i,ax in enumerate(axes.flatten()):
           plot_func(**args[i], ax=ax)
      fig.show()
 
 def loss_plot(train_loss,val_loss, ax):
-     # Function to plot loss
+     """
+     Plot train and validation loss
+     """
 
      sns.lineplot(x=np.arange(len(train_loss)),y=train_loss, label='Train loss', markers=True,  ax=ax)
      sns.lineplot(x=np.arange(len(val_loss)),y=val_loss, label='Validation loss',markers=True, ax=ax)
 
      ax.set_yscale("log")
 
-     plt.xlabel('Epoch')
+     plt.xlabel('Iteration')
      plt.ylabel('Loss')
 
 

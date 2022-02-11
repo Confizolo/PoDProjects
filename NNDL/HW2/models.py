@@ -4,12 +4,6 @@ import torch.nn as nn
 
 #LIGHTNING
 import pytorch_lightning as pl
-from pytorch_lightning import Callback
-from pytorch_lightning.callbacks import ModelCheckpoint
-from torchvision import transforms, datasets
-from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-from pytorch_lightning.callbacks.progress import TQDMProgressBar
-from pytorch_lightning import loggers as pl_loggers
 import torchmetrics
 from utilities import add_noise
 
@@ -20,41 +14,41 @@ class Encoder(nn.Module):
         
         self.device = device
         self.kl = 0
-        ### Convolutional section
+        ### convolutional section
         self.encoder_cnn = nn.Sequential(
-            # First convolutional layer
+            # first convolutional layer
             nn.Conv2d(in_channels=1, out_channels=in_channels[0], kernel_size=3, 
                       stride=2, padding=1),
             act_func(True),
-            # Second convolutional layer
+            # second convolutional layer
             nn.Conv2d(in_channels=in_channels[0], out_channels=in_channels[1], kernel_size=3, 
                       stride=2, padding=1),
             act_func(True),
-            # Third convolutional layer
+            # third convolutional layer
             nn.Conv2d(in_channels=in_channels[1], out_channels=in_channels[2], kernel_size=3, 
                       stride=2, padding=0),
             act_func(True)
         ).to(device)
         
-        ### Flatten layer
+        ### flatten layer
         self.flatten = nn.Flatten(start_dim=1).to(device)
 
-        ### Linear section
+        ### linear section
         self.encoder_lin = nn.Sequential(
-            # First linear layer
+            # first linear layer
             nn.Linear(in_features=in_channels[2]*3*3, out_features=linear_size),
             act_func(True),
-            # Second linear layer
+            # second linear layer
             nn.Linear(in_features=linear_size, out_features=encoded_space_dim)
         ).to(device)
         
     def forward(self, x):
         x = x
-        # Apply convolutions
+        # apply convolutions
         x = self.encoder_cnn(x)
-        # Flatten
+        # flatten
         x = self.flatten(x)
-        # # Apply linear layers
+        # apply linear layers
         x = self.encoder_lin(x)
         return x
 
@@ -64,30 +58,30 @@ class Decoder(nn.Module):
         super().__init__()
         self.device = device 
 
-        ### Linear section
+        ### linear section
         self.decoder_lin = nn.Sequential(
-            # First linear layer
+            # first linear layer
             nn.Linear(in_features=encoded_space_dim, out_features=linear_size),
             act_func(True),
-            # Second linear layer
+            # second linear layer
             nn.Linear(in_features=linear_size, out_features=3*3*in_channels[0]),
             act_func(True)
         ).to(device)
 
-        ### Unflatten
+        ### unflatten
         self.unflatten = nn.Unflatten(dim=1, unflattened_size=(in_channels[0], 3, 3)).to(device)
 
-        ### Convolutional section
+        ### convolutional section
         self.decoder_conv = nn.Sequential(
-            # First transposed convolution
+            # first transposed convolution
             nn.ConvTranspose2d(in_channels=in_channels[0], out_channels=in_channels[1], kernel_size=3, 
                                stride=2,  output_padding=0),
             act_func(True),
-            # Second transposed convolution
+            # second transposed convolution
             nn.ConvTranspose2d(in_channels=in_channels[1], out_channels=in_channels[2], kernel_size=3, 
                                stride=2, padding=1, output_padding=1),
             act_func(True),
-            # Third transposed convolution
+            # third transposed convolution
             nn.ConvTranspose2d(in_channels=in_channels[2], out_channels=1, kernel_size=3, 
                                stride=2, padding=1, output_padding=1)
         ).to(device)
@@ -95,13 +89,13 @@ class Decoder(nn.Module):
     def forward(self, x):
         
         x = x
-        # Apply linear layers
+        # apply linear layers
         x = self.decoder_lin(x)
-        # Unflatten
+        # unflatten
         x = self.unflatten(x)
-        # Apply transposed convolutions
+        # apply transposed convolutions
         x = self.decoder_conv(x)
-        # Apply a sigmoid to force the output to be between 0 and 1 (valid pixel values)
+        # apply a sigmoid to force the output to be between 0 and 1 (valid pixel values)
         x = torch.sigmoid(x)
         return x
 
@@ -121,10 +115,10 @@ class StandardAE(pl.LightningModule):
 
         
     def forward(self, x):
-        # Apply encoder
+        # apply encoder
         x = self.encoder(x)
 
-        # Apply decoder
+        # apply decoder
         x = self.decoder(x)
 
         return x
@@ -178,10 +172,10 @@ class DenoisingAE(pl.LightningModule):
 
 
     def forward(self, x):
-        # Apply encoder
+        # apply encoder
         x = self.encoder(add_noise(x))
 
-        # Apply decoder
+        # apply decoder
         x = self.decoder(x)
 
         return x
@@ -238,23 +232,23 @@ class VariationalAE(pl.LightningModule):
         self.loss_fn = nn.functional.binary_cross_entropy
         
     def reparameterization(self, mean, var):
-        eps = torch.randn_like(var).to(self.device_data)        # Sampling a random variable       
-        z = mean + var*eps                                     # Reparametrization
+        eps = torch.randn_like(var).to(self.device_data)        # sampling a random variable       
+        z = mean + var*eps                                      # reparametrization
         return z
 
     def forward(self, x):
-        # Apply encoder
+        # apply encoder
         x = self.encoder(x)
 
-        # Calculating arrays of means from the previous layer of the network
+        # calculating encoded representation of mean and variances using the output of last encoder layer
         mean =  self.linear2(x).to(self.device_data)
         log_var = self.linear3(x).to(self.device_data)
 
-        # Reparametrization and Kullback-Leibler divergence calculation
+        # reparametrization and Kullback-Leibler divergence calculation
         x = self.reparameterization(mean, torch.exp(0.5 * log_var))
         self.kl = - 0.5 * torch.sum(1+ log_var - mean.pow(2) - log_var.exp())
 
-        # Apply decoder
+        # apply decoder
         x = self.decoder(x)
 
         return x
@@ -275,13 +269,17 @@ class VariationalAE(pl.LightningModule):
         x, y = batch
         z = self.forward(x)
 
+        # custom loss calculation
         loss = self.loss_fn(z, x, reduction="sum") + self.kl
+
         self.log(loss_name, loss, on_epoch=True, on_step=True)
         return loss
     
     def validation_step(self, batch, batch_idx, loss_name = 'val_loss'):
         x, y = batch
         z = self.forward(x)
+
+        # custom loss calculation
         loss = self.loss_fn(z, x, reduction = "sum") + self.kl
         self.log(loss_name, loss, prog_bar=True, on_epoch=True, on_step=True)
         return loss
@@ -305,11 +303,11 @@ class SupervisedCAE(pl.LightningModule):
 
         self.encoder.load_state_dict(state_dict = torch.load(PATH))
 
-        # Prevent Encoder training
+        # prevent encoder training
         for param in self.encoder.parameters():
             param.requires_grad = False
 
-        # Fine tuning section
+        # fine tuning layer
         self.fine_tuner =  nn.Sequential(nn.Linear(self.hyper['encoded_space_dim'],self.hyper["out_linear_size"]),
                                          nn.ReLU(),
                                          nn.Linear(self.hyper["out_linear_size"], 10),
