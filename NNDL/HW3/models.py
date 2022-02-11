@@ -7,7 +7,6 @@ import random
 import numpy as np
 
 import pytorch_lightning as pl
-import torchmetrics
 
 class ReplayMemory(object):
     """
@@ -23,6 +22,7 @@ class ReplayMemory(object):
     sample: Get a sample of predefined batch size from the memory
 
     __len__: Return the size of the memory
+
     """
     def __init__(self, capacity):
         self.memory = deque(maxlen=capacity) # define a queue with maxlen "capacity"
@@ -243,13 +243,13 @@ def test_loop(env, policy, policy_net, num_ep= 10):
     for num_episode in range(num_ep): 
         # reset the environment and get the initial state
         state = env.reset()
-        # reset the score. The final score will be the total amount of steps before the pole falls
+        # reset the score
         score = 0
         done = False
         # go on until the episode ends
         while not done:
-            # choose the best action (temperature 0)
 
+            # choose the best action (temperature/epsilon 0)
             action, q_values = policy(policy_net, state, 0)
             # apply the action and get the next state, the reward and a flag "done" that is True if the game is ended
             next_state, reward, done, info = env.step(action)
