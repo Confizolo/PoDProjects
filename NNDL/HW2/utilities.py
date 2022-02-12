@@ -20,7 +20,7 @@ def plot_result(img, ax):
 
 def multiple_plot(plot_func, grid_size, figsize , args):
      '''
-     plot a serie of images in greyscale
+     plot a sequence of images in greyscale
      ''' 
      fig, axes = plt.subplots(nrows=grid_size[0],ncols=grid_size[1], figsize=figsize)
      for  i,ax in enumerate(axes.flatten()):

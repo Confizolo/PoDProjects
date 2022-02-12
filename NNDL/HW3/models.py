@@ -59,7 +59,20 @@ class DQN(nn.Module):
 
 
 def update_step(policy_net, target_net, replay_mem, gamma, optimizer, loss_fn, batch_size):
-        
+    """
+    Function defining the update step of DQN
+
+    Parameters:
+    ------------
+    policy_net: main neural network to train
+    target_net: target network to train 
+    replay_mem: replay memory for episode batching
+    gamma: gamma learning parameter
+    optimizer: optimizer used for loss minimization
+    loss_fn: loss function
+    batch_size: size of the training batch
+
+    """
     # sample data from the replay memory
     batch = replay_mem.sample(batch_size)
     batch_size = len(batch)
@@ -102,8 +115,23 @@ def update_step(policy_net, target_net, replay_mem, gamma, optimizer, loss_fn, b
     optimizer.step()
 
 def train_loop_pole(env,policy_net,target_net,exploration_profile, policy,replay_mem,hyper, render = False, early_stopping_pars = [None,None], pen = lambda x: 0):
+    """
+    Main training loop function for the CartPole environment
 
-    # architecture variables of the network
+    Parameters:
+    ------------
+    policy_net: main neural network to train
+    target_net: target network to train 
+    exploration_profile: sequence of temperature/epsilon values for exploration
+    policy: policy to use during exploration
+    replay_mem: replay memory for episode batching
+    hyper: hyperparameters to use during training
+    render: to activate environment rendering during training process
+    early_stopping_pars: target value and size of running average to use during training to implement early stopping
+    pen: penalty function
+    """
+
+    # network hyperparameters definition
     bad_state_penalty = hyper["bad_state_penalty"]
     min_samples_for_training = hyper["min_samples_for_training"]
     gamma = hyper["gamma"]
@@ -174,8 +202,23 @@ def train_loop_pole(env,policy_net,target_net,exploration_profile, policy,replay
     return policy_net, target_net, scores
 
 def train_loop_lander(env,policy_net,target_net,exploration_profile, policy,replay_mem,hyper, render = False, early_stopping_pars = [None,None], pen = lambda x: 0):
+    """
+    Main training loop function for the CartPole environment
 
-    # architecture variables of the network
+    Parameters:
+    ------------
+    policy_net: main neural network to train
+    target_net: target network to train 
+    exploration_profile: sequence of temperature/epsilon values for exploration
+    policy: policy to use during exploration
+    replay_mem: replay memory for episode batching
+    hyper: hyperparameters to use during training
+    render: to activate environment rendering during training process
+    early_stopping_pars: target value and size of running average to use during training to implement early stopping
+    pen: penalty function
+    """
+
+    # network hyperparameters definition
     min_samples_for_training = hyper["min_samples_for_training"]
     gamma = hyper["gamma"]
     optimizer = hyper["optimizer"]
@@ -204,7 +247,7 @@ def train_loop_lander(env,policy_net,target_net,exploration_profile, policy,repl
             next_state, reward, done, info = env.step(action)
 
             reward = reward + pen(state,env)
-            # update the final score (+1 for each step)
+            # update the final score 
             score += reward
 
             # update the replay memory
@@ -239,7 +282,16 @@ def train_loop_lander(env,policy_net,target_net,exploration_profile, policy,repl
 
 
 def test_loop(env, policy, policy_net, num_ep= 10):
+    """
+    Main test loop function to produce test episodes
 
+    Parameters:
+    ------------
+    policy: policy to use during testing
+    policy_net: q-values approximation network
+    num_ep: number of testing episodes
+    
+    """
     for num_episode in range(num_ep): 
         # reset the environment and get the initial state
         state = env.reset()

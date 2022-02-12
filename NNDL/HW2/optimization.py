@@ -43,7 +43,6 @@ def return_objective(model,train_dataset, EPOCHS, device):
                           "out_linear_size":out_linear_size, "reg":reg, "mom":momentum}, device=device)
 
         # trainer function creation
-
         trainer = pl.Trainer(
         logger=True,
         enable_checkpointing=False,
