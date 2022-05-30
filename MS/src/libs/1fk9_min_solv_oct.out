@@ -1,0 +1,138 @@
+
+          -------------------------------------------------------
+          Amber 21 SANDER                              2021
+          -------------------------------------------------------
+
+| Run on 05/30/2022 at 11:54:47
+
+|   Executable path: sander
+| Working directory: /home/filippo/Documents/POD/Projects/MS/src/scripts
+|          Hostname: Unknown
+  [-O]verwriting output
+
+File Assignments:
+|  MDIN: minimize.in                                                           
+| MDOUT: ../libs/1fk9_min_solv_oct.out                                         
+|INPCRD: ../libs/1fk9_solv_oct.rst7                                            
+|  PARM: ../libs/1fk9_solv_oct.prmtop                                          
+|RESTRT: ../libs/1fk9_min_solv_oct.ncrst                                       
+|  REFC: refc                                                                  
+| MDVEL: mdvel                                                                 
+| MDFRC: mdfrc                                                                 
+|  MDEN: mden                                                                  
+| MDCRD: mdcrd                                                                 
+|MDINFO: mdinfo                                                                
+|  MTMD: mtmd                                                                  
+|INPDIP: inpdip                                                                
+|RSTDIP: rstdip                                                                
+|INPTRA: inptraj                                                               
+
+
+ Here is the input file:
+
+cat > mdin <<EOF                                                               
+ &cntrl                                                                        
+   imin=1, maxcyc=200, ncyc=50, cut=16, ntb=0, igb=1,                          
+ /                                                                             
+EOF                                                                            
+                                                                               
+set output = minout                                                            
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+| Flags:                                                                        
+| New format PARM file being parsed.
+| Version =    1.000 Date = 05/30/22 Time = 11:30:51
+ NATOM  =  136908 NTYPES =      20 NBONH =  129277 MBONA  =    7841
+ NTHETH =   17609 MTHETA =   10668 NPHIH =   34352 MPHIA  =   26526
+ NHPARM =       0 NPARM  =       0 NNB   =  247581 NRES   =   41458
+ NBONA  =    7841 NTHETA =   10668 NPHIA =   26526 NUMBND =      66
+ NUMANG =     130 NPTRA  =      51 NATYP =      47 NPHB   =       0
+ IFBOX  =       2 NMXRS  =      30 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+ Implicit solvent radii are modified Bondi radii (mbondi)                                                   
+
+|     Memory Use     Allocated
+|     Real            12341102
+|     Hollerith         452184
+|     Integer          3070651
+|     Max Pairs              1
+|     nblistReal             0
+|     nblist Int             0
+|       Total           110175 kbytes
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+| Duplicated    0 dihedrals
+
+     BOX TYPE: TRUNCATED OCTAHEDRON
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+
+General flags:
+     imin    =       1, nmropt  =       0
+
+Nature and format of input:
+     ntx     =       1, irest   =       0, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =      50, ntrx    =       1, ntwr    =       1
+     iwrap   =       0, ntwx    =       0, ntwv    =       0, ntwe    =       0
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       1, ntb     =       0, igb     =       1, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  16.00000, intdiel =   1.00000
+     saltcon =   0.00000, offset  =   0.09000, gbalpha=    1.00000
+     gbbeta  =   0.00000, gbgamma =   0.00000, surften =   0.00500
+     rdt     =   0.00000, rgbmax  =  25.00000  extdiel =  78.50000
+     alpb  =        0
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Energy minimization:
+     maxcyc  =     200, ncyc    =      50, ntmin   =       1
+     dx0     =   0.01000, drms    =   0.00010
+|  INFO: Old style inpcrd file read
+
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+ begin time read from input coords =     0.000 ps
+
+ Number of triangulated 3-point waters found:    40532
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+      1       8.2312E+06     4.3796E+05     1.8963E+08     C        4485
+
+ BOND    =   133983.0676  ANGLE   =     2990.7681  DIHED      =     8959.2676
+ VDWAALS =  8465054.5764  EEL     =  -638309.3198  EGB        =   208802.8438
+ 1-4 VDW =     4742.9873  1-4 EEL =    44944.7931  RESTRAINT  =        0.0000
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+     50      -3.7003E+05     7.1068E+00     2.4641E+03     N         966
+
+ BOND    =    46027.7885  ANGLE   =     4441.0922  DIHED      =     9072.7797
+ VDWAALS =    29210.2779  EEL     =  -662437.3301  EGB        =   154737.0331
+ 1-4 VDW =     4505.1242  1-4 EEL =    44410.5896  RESTRAINT  =        0.0000
