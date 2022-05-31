@@ -1,12 +1,12 @@
 
           -------------------------------------------------------
-          Amber 21 SANDER                              2021
+          Amber 22 SANDER                              2022
           -------------------------------------------------------
 
-| Run on 05/30/2022 at 11:42:13
+| Run on 05/30/2022 at 13:07:03
 
 |   Executable path: sander
-| Working directory: /home/filippo/Documents/POD/Projects/MS/src/scripts
+| Working directory: /home/ubuntu/PoDProjects/MS/src/scripts
 |          Hostname: Unknown
   [-O]verwriting output
 
@@ -136,3 +136,78 @@ default_name
  BOND    =    41934.8415  ANGLE   =     4340.0556  DIHED      =     9098.0364
  VDWAALS =    26303.3703  EEL     =  -664466.5191  EGB        =   176330.3493
  1-4 VDW =     4479.9187  1-4 EEL =    44365.4868  RESTRAINT  =        0.0000
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    100      -3.9576E+05     4.2104E+00     1.0855E+03     C9      15296
+
+ BOND    =    41356.8705  ANGLE   =     3843.4961  DIHED      =     9321.6250
+ VDWAALS =    11877.0935  EEL     =  -622596.4342  EGB        =   113657.6852
+ 1-4 VDW =     3455.5042  1-4 EEL =    43320.6613  RESTRAINT  =        0.0000
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    150      -4.0837E+05     3.6057E+00     8.0697E+02     C9      15296
+
+ BOND    =    38520.2539  ANGLE   =     3166.4665  DIHED      =     9265.6496
+ VDWAALS =     8958.8948  EEL     =  -588868.7063  EGB        =    73801.6899
+ 1-4 VDW =     3383.3922  1-4 EEL =    43404.7192  RESTRAINT  =        0.0000
+
+     ... RESTARTED DUE TO LINMIN FAILURE ...
+
+     ... RESTARTED DUE TO LINMIN FAILURE ...
+
+     ... RESTARTED DUE TO LINMIN FAILURE ...
+
+     ... RESTARTED DUE TO LINMIN FAILURE ...
+
+     ... RESTARTED DUE TO LINMIN FAILURE ...
+
+     ***** REPEATED LINMIN FAILURE *****
+
+     ***** SEE http://ambermd.org/Questions/linmin.html FOR MORE INFO *****
+
+
+                    FINAL RESULTS
+
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    199              NaN            NaN     0.0000E+00     N           1
+
+ BOND    =           NaN  ANGLE   =  1903719.9718  DIHED      =     6874.5800
+ VDWAALS =        0.0000  EEL     =        0.0000  EGB        = -6323862.7352
+ 1-4 VDW =           NaN  1-4 EEL =           NaN  RESTRAINT  =        0.0000
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|                Calc gb radii           6372.73 (18.89% of Gen B)
+|                Calc gb diag           21312.05 (63.19% of Gen B)
+|                Calc gb off-diag        6044.12 (17.92% of Gen B)
+|             Gen Born time          33728.95 (100.0% of Nonbo)
+|          Nonbond force          33728.95 (100.0% of Force)
+|          Bond/Angle/Dihedral        3.58 ( 0.01% of Force)
+|       Force time             33732.71 (100.0% of Runmd)
+|    Runmd Time             33732.71 (100.0% of Total)
+|    Other                      6.93 ( 0.02% of Total)
+| Total time             33739.79 (100.0% of ALL  )
+
+| Number of list builds   :          0
+
+| Highest rstack allocated:          0
+| Highest istack allocated:          0
+|           Job began  at 13:07:03.750  on 05/30/2022
+|           Setup done at 13:07:04.905  on 05/30/2022
+|           Run   done at 22:29:23.538  on 05/30/2022
+|     wallclock() was called    3610 times
+
+|3D-RISM memory allocation summary
+|Type          Maximum        Current   
+|Integer       0.00000 GB     0.00000 GB
+|Real          0.00000 GB     0.00000 GB
+|Logical       0.00000 GB     0.00000 GB
+|Character     0.00000 GB     0.00000 GB
+|---------------------------------------
+|Total         0.00000 GB     0.00000 GB
