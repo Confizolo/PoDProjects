@@ -115,40 +115,40 @@ pdfkeywords={} %%put keywords here
 %   	BEGIN DOCUMENT 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-	\urlstyle{rm} % Format style of \url   
-	
+\urlstyle{rm} % Format style of \url   
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Cover Page is REQUIRED and must contain the information 
 %	displayed here, at a minimum. Additional artwork may be included 
 %	(e.g., official project/conference logo, etc.).
 %	Pub Number automated based on metadata
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\begin{titlepage}
-		\begin{flushright}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 	Automated based on metadata - delete if not applicable
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\LARGE{\textbf{Molecular Simulations Report}}\\
-\vfill
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	Title 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Huge{\textbf{Comparative analysis of water structure for
-complex 1fk9}}\\
-\vfill
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	Authors - add complete list of authors, affiliations will be 
-%   added on title page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\large Conforto Filippo - 2021856\\
+\begin{titlepage}
+    \begin{flushright}
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % 	Automated based on metadata - delete if not applicable
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \LARGE{\textbf{Molecular Simulations Report}}\\
+        \vfill
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %	Title 
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \Huge{\textbf{Comparative analysis of water structure for
+                complex 1fk9}}\\
+        \vfill
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %	Authors - add complete list of authors, affiliations will be 
+        %   added on title page
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \large Conforto Filippo - 2021856\\
 
-\vfill
-
-
-\includegraphics[width=0.3\linewidth]{logo.png}\\ 
+        \vfill
 
 
-\end{flushright}
+        \includegraphics[width=0.3\linewidth]{logo.png}\\
+
+
+    \end{flushright}
 \end{titlepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,16 +156,55 @@ complex 1fk9}}\\
 % 	List of Tables & Figures required if more than 5 tables/figures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{center}
-	\tableofcontents
-	\listoffigures
+    \tableofcontents
+    \listoffigures
 \end{center}
 \pagebreak
 \section{Introduction}
-In the following report will be discussed methodology and
-techniques used to study the water structure for the molecular
-complex 1fk9\cite{Ren2000}. 
+The following report contains procedures and results regarding different tests of pre-equilibrated water solvents for the molecular complex 1fk9\cite{Ren2000}.
 
-1fk9 
+1fk9 represents the combination of two chains, both coming from
+the HIV-1 reverse transcriptase\cite{pmid3040055}.
+The first chain (chain A) in particular contains residues from position
+588 to 1130, while the second one contains residues from
+position 588 to 1027. One additional remark to do on the first
+chain is that it contains a modified residue of cystine (CYS)
+called CSD. Along with this particular monomer another
+important molecule contained in the complex is the EFZ ligand
+that will need its specific modelization before being able to
+do any simulation on the complex behaviour.
+
+The CSD residue can be found in correspondence to the residue
+867 of HIV reverse transcriptase original sequence, and can be
+found in the middle of the Chain A, while the EFZ residue works
+as a ligand between the two chains.
+
+By considering such structure the main goal of the work done
+was to compare how the molecular complex behaves while
+constrained in different solutions. To do so different
+model preparation and molecular dynamics tools were used to
+prepare and simulate the system.
+\section{Methods}
+The main applicative used to get the final results is Amber \cite{Amber}, in particular the tools tleap, pdb4amber and sander.
+
+The complex structure was retrieved from the pdb dataset, and contained all the already named chains and residues. The file contained also some HOH elements (Water codification) that were useless for the project goal.
+
+Since the two residues (CSD and EFZ) were not associated to any force field, the parameters were manually added through model preparation.
+
+Steps followed were the same for both the residues, involving these procedures:
+
+\begin{itemize}
+    \item Hydrogen addition
+    \item Charges computation
+    \item General force field (gaff) assignment
+\end{itemize}
+
+After these procedures, the final parameters were saved in a .lib file ready to be loaded for the final simulation process. 
+
+The molecular complex was then loaded in tleap and minimized using sander, after loading the necessary force fields and the manually created ones. 
+
+The next step was so to add a preequilibrated solute, in our system. 
+
 
 \bibliographystyle{plain} % We choose the "plain" reference style
 \bibliography{bibl} % Entries are in the refs.bib file
