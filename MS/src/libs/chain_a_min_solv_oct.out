@@ -144,3 +144,67 @@ default_name
  BOND    = 29351602.7688  ANGLE   =     6061.2071  DIHED      =     5495.4972
  VDWAALS = *************  EEL     =  -725593.3406  EGB        =   172583.0415
  1-4 VDW =     2288.1337  1-4 EEL =    23861.8228  RESTRAINT  =        0.0000
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    150       1.9739E+07     1.1323E+04     4.5693E+06     O       93543
+
+ BOND    = 19725272.7397  ANGLE   =     6394.6317  DIHED      =     5476.0904
+ VDWAALS =   529401.8493  EEL     =  -723260.8488  EGB        =   170026.1661
+ 1-4 VDW =     2071.9962  1-4 EEL =    23843.2233  RESTRAINT  =        0.0000
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    200       1.1401E+08     2.9187E+06     7.3451E+08     O       83739
+
+ BOND    =  4038600.2963  ANGLE   =     5532.2419  DIHED      =     5423.2138
+ VDWAALS = *************  EEL     =  -722805.9050  EGB        =   168406.4143
+ 1-4 VDW =     3195.5337  1-4 EEL =    23863.7523  RESTRAINT  =        0.0000
+
+
+  Maximum number of minimization cycles reached.
+
+
+                    FINAL RESULTS
+
+
+
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+    200       1.1401E+08     2.9187E+06     7.3451E+08     O       83739
+
+ BOND    =  4038600.2963  ANGLE   =     5532.2419  DIHED      =     5423.2138
+ VDWAALS = *************  EEL     =  -722805.9050  EGB        =   168406.4143
+ 1-4 VDW =     3195.5337  1-4 EEL =    23863.7523  RESTRAINT  =        0.0000
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|                Calc gb radii           4524.80 (22.38% of Gen B)
+|                Calc gb diag           11601.82 (57.38% of Gen B)
+|                Calc gb off-diag        4091.13 (20.24% of Gen B)
+|             Gen Born time          20217.81 (100.0% of Nonbo)
+|          Nonbond force          20217.81 (100.0% of Force)
+|          Bond/Angle/Dihedral        1.50 ( 0.01% of Force)
+|       Force time             20219.38 (100.0% of Runmd)
+|    Runmd Time             20219.38 (100.0% of Total)
+|    Other                      3.93 ( 0.02% of Total)
+| Total time             20223.47 (100.0% of ALL  )
+
+| Number of list builds   :          0
+
+| Highest rstack allocated:          0
+| Highest istack allocated:          0
+|           Job began  at 09:14:41.866  on 06/09/2022
+|           Setup done at 09:14:42.890  on 06/09/2022
+|           Run   done at 14:51:45.337  on 06/09/2022
+|     wallclock() was called    3628 times
+
+|3D-RISM memory allocation summary
+|Type          Maximum        Current   
+|Integer       0.00000 GB     0.00000 GB
+|Real          0.00000 GB     0.00000 GB
+|Logical       0.00000 GB     0.00000 GB
+|Character     0.00000 GB     0.00000 GB
+|---------------------------------------
+|Total         0.00000 GB     0.00000 GB
