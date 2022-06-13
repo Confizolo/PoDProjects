@@ -1,0 +1,32 @@
+REMARK The program SIMULAID optimized the orientation of the molecule
+REMARK in a periodic Rectangular          cell
+REMARK Minimum image-image distance requested= 15.00 A
+REMARK Cell volume=     8521.25 A**3 accomodating   283 waters
+REMARK Cell parameter(s)= 20.820351 19.135935 21.387781
+REMARK Multiply by the matrix below to recover the original orientation
+REMARK TRRTr1       0.0000000  0.2523219  0.7545649
+REMARK TRRTr2       0.0000000 -0.7649213  0.5389606
+REMARK TRRTr3       0.0000000 -0.5926458 -0.3743707
+TITLE @#$%
+HETATM    1 CL   EFZ A   1      -0.000  -2.860  -2.093  1.00 54.67          Cl
+HETATM    2  F1  EFZ A   1       0.000   2.485   0.381  1.00 49.81           F
+HETATM    3  F2  EFZ A   1       0.000   1.149  -1.222  1.00 48.58           F
+HETATM    4  F3  EFZ A   1       0.000   2.623  -0.646  1.00 53.94           F
+HETATM    5  O1  EFZ A   1       0.000   3.020   3.166  1.00 35.23           O
+HETATM    6  O2  EFZ A   1       0.000   1.497   2.081  1.00 42.31           O
+HETATM    7  N   EFZ A   1       0.000   1.916   1.445  1.00 38.62           N
+HETATM    8  C1  EFZ A   1       0.000   0.753   0.606  1.00 35.22           C
+HETATM    9  C2  EFZ A   1       0.000   0.266   0.046  1.00 37.24           C
+HETATM   10  C3  EFZ A   1      -0.000  -0.866  -0.786  1.00 42.18           C
+HETATM   11  C4  EFZ A   1      -0.000  -1.484  -1.069  1.00 41.42           C
+HETATM   12  C5  EFZ A   1      -0.000  -1.010  -0.536  1.00 35.67           C
+HETATM   13  C6  EFZ A   1       0.000   0.137   0.265  1.00 37.33           C
+HETATM   14  C7  EFZ A   1       0.000   0.747   0.848  1.00 44.16           C
+HETATM   15  C8  EFZ A   1       0.000  -0.272   1.146  1.00 47.06           C
+HETATM   16  C9  EFZ A   1       0.000  -1.091   1.379  1.00 47.91           C
+HETATM   17  C10 EFZ A   1       0.000  -2.287   1.728  1.00 48.05           C
+HETATM   18  C11 EFZ A   1       0.000  -2.816   2.777  1.00 46.46           C
+HETATM   19  C12 EFZ A   1       0.000  -3.366   1.642  1.00 46.26           C
+HETATM   20  C13 EFZ A   1       0.000   1.764  -0.175  1.00 47.28           C
+HETATM   21  C14 EFZ A   1       0.000   2.209   2.295  1.00 39.77           C
+END
