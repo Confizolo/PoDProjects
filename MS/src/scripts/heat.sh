@@ -1,3 +1,7 @@
 #!/bin/sh
 
-sander -O -i heat.in -o hivrt_efz_heat.out -p ../P2/hivrt_efz.prmtop -c ../P2/hivrt_efz_min.ncrst  -r hivrt_efz_heat.rst -x hivrt_efz_heat.nc &
+
+mol="efz_"
+kind="solv_box"
+
+mpirun -np 6 sander -O -i heat_pbc.in -o ../out/${mol}${kind}_heatpbc.out -p ../res/${mol}${kind}.prmtop -c ../res/${mol}${kind}_min.ncrst  -r ../res/${mol}${kind}_heatpbc.rst -x ../res/${mol}${kind}_heatpbc.nc 

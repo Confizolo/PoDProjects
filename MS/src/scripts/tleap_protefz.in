@@ -1,10 +1,10 @@
 source oldff/leaprc.ff99SB
 source leaprc.gaff 
-loadamberparams ../libs/efz.frcmod
-loadoff ../libs/efz.lib
-loadamberparams ../libs/csd.frcmod
-loadoff ../libs/csd.lib
-hivcompl = loadpdb ../data/1fk9_amber.pdb
-saveamberparm hivcompl ../libs/1fk9.prmtop ../libs/1fk9.rst7
-savepdb hivcompl ../libs/1fk9_amber_new.pdb
+loadamberparams ../data/efz.frcmod
+loadoff ../data/efz.lib
+loadamberparams ../data/csd.frcmod
+loadoff ../data/csd.lib
+hivcompl = loadpdb ../data/efz_min_base.pdb
+saveamberparm hivcompl ../data/efz_min.prmtop ../data/efz_min.rst7
+savepdb hivcompl ../data/efz_min.pdb
 quit

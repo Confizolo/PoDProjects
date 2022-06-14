@@ -5,9 +5,9 @@ loadamberparams ../libs/efz.frcmod
 loadoff ../libs/efz.lib
 loadamberparams ../libs/csd.frcmod
 loadoff ../libs/csd.lib
-hivcompl = loadpdb ../data/1fk9_amber.pdb
+hivcompl = loadpdb ../data/chain_b_opt.pdb
 addIons hivcompl Cl- 2
-solvateOct hivcompl TIP3PBOX 10.0
-saveamberparm hivcompl ../libs/1fk9_solv_oct.prmtop ../libs/1fk9_solv_oct.rst7
-savepdb hivcompl ../libs/1fk9_solv_oct.pdb
+solvateOct hivcompl TIP3PBOX 12
+saveamberparm hivcompl ../libs/chain_b_solv_oct.prmtop ../libs/chain_b_solv_oct.rst7
+savepdb hivcompl ../libs/chain_b_solv_oct.pdb
 quit

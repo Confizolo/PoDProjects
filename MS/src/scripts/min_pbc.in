@@ -1,0 +1,12 @@
+cat > mdin <<EOF
+&cntrl
+  imin   = 1,
+  maxcyc = 2000,
+  ncyc   = 2000,
+  ntb    = 1,
+  ntr    = 0,
+  cut    = 15.0
+ /
+EOF
+
+set output = minout

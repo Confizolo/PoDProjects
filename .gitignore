@@ -9,6 +9,4 @@
 *.csv
 .ipynb*/
 *.md
-MS/src/out/
-*.log
 *.docx

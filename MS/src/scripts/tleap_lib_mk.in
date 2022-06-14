@@ -1,0 +1,8 @@
+source oldff/leaprc.ff99SB
+source leaprc.gaff 
+CSD = loadmol2 ../data/csd.mol2  
+loadamberparams ../data/csd.frcmod
+check CSD
+saveoff CSD ../data/csd.lib
+saveamberparm CSD ../data/csd.prmtop ../data/csd.rst7    
+quit
