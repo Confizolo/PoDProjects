@@ -5,9 +5,9 @@ loadamberparams ../data/efz.frcmod
 loadoff ../data/efz.lib
 loadamberparams ../data/csd.frcmod
 loadoff ../data/csd.lib
-hivcompl = loadpdb ../data/efz_opt_pbc.pdb
+hivcompl = loadpdb ../data/chain_b_efz_pbc.pdb
 addIons hivcompl Cl- 2
 solvatebox hivcompl TIP3PBOX 12.0
-saveamberparm hivcompl ../res/efz_solv_box.prmtop ../res/efz_solv_box.rst7
-savepdb hivcompl ../res/efz_solv_box.pdb
+saveamberparm hivcompl ../res/chain_b_efz_solv_box.prmtop ../res/chain_b_efz_solv_box.rst7
+savepdb hivcompl ../res/chain_b_efz_solv_box.pdb
 quit
