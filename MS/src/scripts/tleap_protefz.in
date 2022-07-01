@@ -4,7 +4,7 @@ loadamberparams ../data/efz.frcmod
 loadoff ../data/efz.lib
 loadamberparams ../data/csd.frcmod
 loadoff ../data/csd.lib
-hivcompl = loadpdb ../data/chain_b_efz_pbc_base.pdb
-saveamberparm hivcompl ../data/chain_b_efz_pbc.prmtop ../data/chain_b_efz_pbc.rst7
-savepdb hivcompl ../data/chain_b_efz_pbc.pdb
+hivcompl = loadpdb ../data/chain_a_efz_pbc_base.pdb
+saveamberparm hivcompl ../data/chain_a_efz_pbc.prmtop ../data/chain_a_efz_pbc.rst7
+savepdb hivcompl ../data/chain_a_efz_pbc.pdb
 quit
