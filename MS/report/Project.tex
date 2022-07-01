@@ -250,7 +250,7 @@ The minimized configuration's atoms don't have any initial speed, that have to b
 The heating procedure was finally carried out in 10000 steps, each one of 2 fs. This allowed in both cases to reach the required temperature without fluctuations larger than a few degrees.
 
 
-After having heaten up the system it was possible to perform the actual molecular simulation and study the system at a fixed temperature. A simulation with the same settings of the one discussed for the heating was set up, with the temperature fixed at 298 K as before, and run for 10000 iterations.
+After having heaten up the system it was possible to perform the actual molecular simulation and study the system at a fixed temperature. A simulation with the same settings of the one discussed for the heating was set up, with the temperature fixed at 298 K as before, and run for 1000000 iterations (100 ps).
 Again, thanks to the Langevin thermostat it was possible to keep almost fixed the temperature around the required value, with an RMS that was calculated to be around 1 to 2 degrees in both the tests done.
 
 \subsection{Analysis methods}
@@ -283,22 +283,22 @@ The first calculation was done to compute the radial distribution function g(r),
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth, clip, trim= 0 0 600 0]{../figures/a_chain_act.pdf}
-    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain A + EFZ. g(r) in dark blue, while K(r) in light blue.\label{fig:gofr_chain_a_efz_1}}
+    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain A + EFZ. g(r) in dark blue, K(r) in light blue.\label{fig:gofr_chain_a_efz_1}}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth, clip, trim= 600 0 0 0]{../figures/a_chain_act.pdf}
-    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain A + EFZ. g(r) in dark blue, while K(r) in light blue.\label{fig:gofr_chain_a_efz_2}}
+    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain A + EFZ. g(r) in dark blue, K(r) in light blue.\label{fig:gofr_chain_a_efz_2}}
 \end{figure}
 Only a few residues show a significative local structure, for example the residue 93 in figure \ref{fig:gofr_chain_a_efz_1}, showing a hydration cell around
-2 \AA, or the residue 98, in figure \ref{fig:gofr_chain_a_efz_2}, with two hydration shells at 2 and 3 \AA. A single shell can be also found in figure \ref{fig:gofr_chain_a_efz_2} for the residue 95, but also for residue 227.
+2 \AA, or the residue 98, in figure \ref{fig:gofr_chain_a_efz_2}, with two hydration shells at 2 and 3 \AA. A single shell can be also found in figure \ref{fig:gofr_chain_a_efz_2} for the residue 95.
 Around residues like 310,180 and 172 it is possible to observe similar structures, with smaller peaks, idicating less dense shells. The other residues have in general more repulsive behaviours, including EFZ, with a shape increasing continuosly with distance.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../figures/b_chain_act.pdf}
-    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain B + EFZ. g(r) in dark blue, while K(r) in light blue.\label{fig:gofr_chain_b_efz}}
+    \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain B + EFZ. g(r) in dark blue, K(r) in light blue.\label{fig:gofr_chain_b_efz}}
 \end{figure}
 
 In the second tested configuration (figure \ref{fig:gofr_chain_b_efz}) results were very similar, with the residue EFZ having a less repulsive behaviour, but the same continuos increase with distance. Residue 129 instead has a clear hydration cells at 2 \AA.
@@ -311,7 +311,7 @@ For the coordination numbers the only difference between different residues is r
     \includegraphics[width=\textwidth]{../figures/rmsd.pdf}
     \caption{Global RSMD for the Chain A + EFZ case (a) and the Chain B + EFZ case (b).\label{fig:rmsd}}
 \end{figure}
-In both cases, as can be seen from figure \ref{fig:rmsd}, the complex RMSD remseble a global movement that seems to move the structure away from the original configuration. However, the small scale at which this phenomenon happens allows to conclude that the complex is in general stable and such fluctuations can be easily explained with the high temperature at which the simulation is done. The increasing trend of RMSD could be eventually verified in longer simulations to see if the value decreases at any time.
+In both cases, as can be seen from figure \ref{fig:rmsd}, the complex RMSD remseble a global movement that seems to move the structure away from the original configuration. However, the small scale at which this phenomenon happens allows to conclude that the complex is in general stable and such fluctuations can be easily explained with the high temperature at which the simulation is done. The increasing trend of RMSD could be eventually verified in longer simulations to see if the value decreases at any time, meaning that the structure is returning to the original configuration.
 
 \begin{figure}[H]
     \centering
@@ -337,7 +337,8 @@ The RMSF in figure \ref{fig:rmsf} of EFZ shows instead how the of EFZ behaves du
 
 In figure \ref{fig:dist}, the position of EFZ's atoms with respect to the active site was calculated along the simulation. For the first tested configuration (Chain A + EFZ) it can be seen that the distance is in average stable, with some bouncing between a minimum and a maximum value, probably associated to temperature.
 
-In the second configuration the trend is instead different, with a slower movement towards the active residue, that allows the substrate to reach a minimum distance near the simulation end. This last configuration may not be a stable one, since, as it can be noticed, in next steps the residues begins again to move away from the active residue. Conclusions on such topic could be eventually taken only with longer simulations.
+In the second configuration the trend is instead different, with a slower movement towards the active residue, that allows the substrate to reach a minimum distance in the middle of the simulation. This last configuration is not be a stable one, since, as it can be noticed, with the distance increasing in following steps, and the residues moving away from each other.
+
 \section{Conclusions}
 The simulation carried out with the molecular dynamics techniques allowed to take an  experimental structure and merge it with theoretical potentials to get a complete model of the complex to simulate. Through Amber\cite{Amber} it was also possible to put the system in a preequilibrated box of water and try to replicate experimental condition with the use of periodic boundary conditions. This new system was ready to be heaten up and then simulated for a long period in order to understand its behaviour.
 
@@ -350,6 +351,7 @@ Finally, the distance of EFZ from the active site allowed understanding how much
 Further measurements could eventually test the same complexes using MonteCarlo techniques to improve the accuracy of measurements and analytics.
 \section{Source code}
 All the code used during the project computations and its outputs can be found in the following GitHub \href{https://github.com/Confizolo/PoDProjects}{repository}, in the "MS" subdirectory.
+\pagebreak
 \bibliographystyle{plain} % We choose the "plain" reference style
 \bibliography{bibl} % Entries are in the refs.bib file
 
