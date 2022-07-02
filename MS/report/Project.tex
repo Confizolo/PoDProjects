@@ -171,9 +171,9 @@ pdfkeywords={} %%put keywords here
 \section{Introduction}
 
 The biological and medical importance of residues as Efavirenz (EFZ) are related to the interaction they have with larger protein complexes such as the HIV-1 reverse transcriptase. Their interaction with the active site of such proteins allows to inhibit the complex's functionality and be useful in anti-HIV therapies \cite{Ren2000}.
-The macromolecule discussed in this work is coded as 1fk9 and represents the combination of a wild type reverse transcriptase(K103N)\cite{pmid3040055} and the EFZ residue.
+The macromolecule discussed in this work is coded as 1fk9 and represents the combination of a wild type reverse transcriptase (K103N)\cite{pmid3040055} and the EFZ residue.
 
-At the structure level the molecular complex is composed by two chains, while EFZ occupies the active site of the structure.
+At the structure level the molecular complex is composed of two chains, while EFZ occupies the active site of the structure.
 The first chain of the complex(chain A) contains residues from position 588 to 1130 of the original polyprotein (Uniprot P04585), while the second one contains residues with position 588 to 1027. One additional remark to do on the first chain is that it contains a modified residue of cystine (CYS \cite{CYS}), called CSD \cite{CSD}. The presence of Efavirenz \cite{EFZ} will require its specific modelization, along with the CSD one, before being able to do any simulation on the complex's behaviour.
 \begin{figure}[H]
     \centering
@@ -186,13 +186,13 @@ The first chain of the complex(chain A) contains residues from position 588 to 1
 
 The CSD residue replaces CYS at the position 867 of original polyprotein sequence, around the middle of the Chain A.
 
-By considering such structure, the main goal of the work was to compare how the molecular complex behaves while constrained in water solution. To do so molecular dynamics methods were applied in order to study the dynamics and the relative distribution of molecules and water.
+By considering such structure, the main goal of the work was to study how the molecular complex behaves while constrained in water solution. To do so molecular dynamics methods were applied in order to understand the dynamics and the relative distribution of water molecules.
 
 \section{Methods}
-The main applicative used to get the final results was Amber\cite{Amber}, in particular the tools "tleap", "pdb4amber" and "sander". These tools allowed both to prepare the model for the system and executing molecular dynamics simulations of the molecules' behaviour.
+The main applicative used to get the final results was Amber\cite{Amber}, and in particular its tools "tleap", "pdb4amber" and "sander". These tools allowed both to prepare the model for the system and executing molecular dynamics simulations of the molecules' behaviour.
 
-The complex's structure was retrieved from the pdb dataset, and contained all the already named chains and residues. The pdb file contained also some HOH elements (water codification), found during the X-Ray Cristallography\cite{SAKABE1991448}.
-These water molecules were not taken into account during the elaboration and the successive simulation, since they were replaced later with the pre-equilibrated solvent available in the tip3 library of tleap.
+The complex's structure was retrieved from the pdb dataset, and contained all the already presented chains and residues. The pdb file contained also some HOH elements (water codification), found during the X-Ray Cristallography \cite{SAKABE1991448}.
+These water molecules were not taken into account during the elaboration and the following simulations, since they were replaced later using the pre-equilibrated solvent available in the tip3 library of tleap.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{../figures/water.png}
@@ -210,12 +210,12 @@ Steps followed for such procedures were the same for both the residues, involvin
 \end{itemize}
 
 After these procedures, the final parameters were saved in a .lib file ready to be loaded for the final simulation process.
-Given this initial modelization it was decided to study the behaviour of two particular configurations:
+Given this initial modelization, it was decided to study the behaviour of two particular configurations:
 \begin{itemize}
     \item Chain A + EFZ
     \item Chain B + EFZ
 \end{itemize}
-This was done to ease computations by using a smaller set of elements to simulate while having the possibility to study reciprocal behavior of the EFZ residue and the active residues of both the chains. Active residue were individuated before the main elaboration, through Pymol\cite{pymol}, by looking for atoms closer than 4 \AA to EFZ belonging to each chain, visually represented in figure \ref{fig:actres}.
+This was done to ease computations by using a smaller set of elements to simulate, while having the possibility to study reciprocal behavior of the EFZ residue and the active residues of both the chains. The effective active residues were infact individuated before the main elaboration, through Pymol\cite{pymol}, by looking for atoms closer than 4 \AA \, to EFZ belonging to each chain, visually represented in figure \ref{fig:actres}.
 
 \begin{figure}
     \centering
@@ -228,10 +228,10 @@ analysis and used as a reference to study the water distribution.
 Before any action was taken, the newly-generated pdb files underwent some cleaning through the command "pdb4amber", and were then optimized for a rectangular box through simulaid \cite{simulaid}. After this first optimization it was possible to use tleap, load the pdb file corresponding to each tested configuration and define the force fields using predefined libraries ("ff99SB") and user-defined ones for the CSD and EFZ residues. In this last phase some warnings were raised by tleap concerning improper tension terms, but were considered negligible and so the global model was accepted as generally correct.
 
 \subsection{Solvent addition and minimization}
-After having prepared the model for the two sistems to simulate, preequilibrated water was added using "TIP3" library of tleap using a rectangular box filled with water with maximum distance from solvate fixed at 12 \AA. Ions were also added to the system to neutralise the charges, whose sum was equal to +6 in the Chain B + EFZ case, and equal to -2 in the Chain A + EFZ case.
-These charges were balanced with respectively by adding 6 Cl- ions in the first case, and 2 Na+ ions in the latter one. Once again some errors were raised by tleap, but were similar to the ones found during the loading phase and then considered ininfluential.
+After having prepared the model for the two sistems to simulate, preequilibrated water was added using "TIP3" library of tleap, by creating a rectangular box filled with water with maximum distance from solvate fixed at 12 \AA. Ions were also added to the system to neutralise the charges, whose sum was equal to +6 in the Chain B + EFZ case, and equal to -2 in the Chain A + EFZ case.
+These charges were balanced respectively by adding 6 Cl- ions in the first case, and 2 Na+ ions in the latter one. Once again some errors were raised by tleap, but were similar to the ones found during the loading phase and then considered ininfluential.
 
-Given this initial configuration it was possible to start a minimization routine using periodic boundary conditions along 2000 iterations with a cut fixed at 15 \AA. This last process allowed to retrieve a stable configuration, moving from starting energies equal to $E=1.5\cdot 10^{13}$ for the Chain A + EFZ case and $E=-1.1\cdot 10^{5}$ for che Chain B + EFZ to respectively energies equal to $E=-3.4\cdot 10^{5}$ and $E=-2.6\cdot 10^{5}$.
+Given this initial configuration it was possible to start a minimization routine using periodic boundary conditions over 2000 iterations with a cut fixed at 15 \AA. This last process allowed to retrieve a stable configuration, moving from starting energies equal to $E=1.5\cdot 10^{13} \frac{kcal}{mol}$ for the Chain A + EFZ case and $E=-1.1\cdot 10^{5} \frac{kcal}{mol}$ for che Chain B + EFZ to respectively energies equal to $E=-3.4\cdot 10^{5} \frac{kcal}{mol}$ and $E=-2.6\cdot 10^{5} \frac{kcal}{mol}$.
 
 \begin{figure}
     \centering
@@ -246,18 +246,18 @@ Given this initial configuration it was possible to start a minimization routine
 \end{figure}
 
 \subsection{Molecular dynamics}
-The minimized configuration's atoms don't have any initial speed, that have to be assigned by fixing an initial temperature and extracting them randomly from the Boltzmann distribution. Through a second script, the system, starting from this initial configuration, was heaten up in periodic boundary conditions from an initial temperature of 0 K, to a final temperature of 298 K. This was done in an isothermic and isobaric esemble coded using a Langevin thermostat. Along with these settings the cut was again fixed at 15 \AA, while the hydrogen movement was constrained with a harmonic potential.
-The heating procedure was finally carried out in 10000 steps, each one of 2 fs. This allowed in both cases to reach the required temperature without fluctuations larger than a few degrees.
+The minimized configuration's atoms don't have any initial speed, that have to be assigned by fixing an initial temperature and extracting the velocity randomly from the Boltzmann distribution. Through a second script, the system, starting from this initial configuration, was heaten up in periodic boundary conditions from an initial temperature of 0 K, to a final temperature of 298 K. This was done in an isothermic and isobaric esemble coded using a Langevin thermostat. Along with these settings the cut was again fixed at 15 \AA, while the hydrogen movement was constrained with a harmonic potential.
+The heating procedure was finally carried out in 10000 steps, each one of 2 fs for a total of 20 ps. This allowed in both cases to reach the required temperature without fluctuations larger than a few degrees.
 
 
 After having heaten up the system it was possible to perform the actual molecular simulation and study the system at a fixed temperature. A simulation with the same settings of the one discussed for the heating was set up, with the temperature fixed at 298 K as before, and run for 1000000 iterations (100 ps).
 Again, thanks to the Langevin thermostat it was possible to keep almost fixed the temperature around the required value, with an RMS that was calculated to be around 1 to 2 degrees in both the tests done.
 
 \subsection{Analysis methods}
-The main interest of these simulations is to study and discuss the behaviour of water molecules and active residues during the time they are run. To do so two software utilities were used:
+The main interest of these simulations was to study and discuss the behaviour of water molecules and active residues during the time they are run. To do so two software utilities were used:
 \begin{itemize}
-    \item VMD\cite{VMD}, to calculate the radial distribution function g(r)
-    \item MDTraj\cite{MDTraj}, to study the trajectory of the simulated structure and compute the running coordination number $K(r)$.
+    \item VMD \cite{VMD}, to calculate the radial distribution function g(r)
+    \item MDTraj \cite{MDTraj}, to study the trajectory of the simulated structure and compute the running coordination number $K(r)$.
 \end{itemize}
 
 Both these tools refer to the following formulas:
@@ -270,9 +270,9 @@ Both these tools refer to the following formulas:
     \label{eq:kofr}
 \end{equation}
 
-These formulas the were discretized by dividing the radius domain in intervals of length equal to 0.1 \AA, in order to be applied on the simulation's results.
+These formulas were discretized by dividing the radius' domain in intervals of length equal to 0.1 \AA, in order to be applied on the simulation's results.
 
-Along with these analyses, were considered also the calculation of RSMD of the global complex and the RSMF of the EFZ residue. The first computation allowed determining how much the protein's residues moves globally from the starting configuration, during the simulation, by computing the mean deviation from the reference structure (the initial one). The latter one instead allowed understanding how much a single atom fluctuated from a reference configuration of a single residue, that in this case will be EFZ.
+Along with these analyses, were considered also the calculation of RSMD of the global complex and the RSMF of the EFZ residue. The first computation allowed determining how much the protein's residues moved globally from the starting configuration, during the simulation, by computing the mean deviation from the reference structure (the initial one). The latter one instead allowed understanding how much a single atom fluctuated from a reference configuration of a single residue, in this case EFZ.
 
 A final check was also done on the distance between the substrate EFZ from the active site. The active site position was identified in the discussed cases as the center of mass of the active residues for each simulated molecular complex. In the Chain A+EFZ simulation was represented by the average of 15 positions, while for the Chain B+EFZ was directly identified with the single active residue.
 \section{Results}
@@ -293,7 +293,7 @@ The first calculation was done to compute the radial distribution function g(r),
 \end{figure}
 Only a few residues show a significative local structure, for example the residue 93 in figure \ref{fig:gofr_chain_a_efz_1}, showing a hydration cell around
 2 \AA, or the residue 98, in figure \ref{fig:gofr_chain_a_efz_2}, with two hydration shells at 2 and 3 \AA. A single shell can be also found in figure \ref{fig:gofr_chain_a_efz_2} for the residue 95.
-Around residues like 310,180 and 172 it is possible to observe similar structures, with smaller peaks, idicating less dense shells. The other residues have in general more repulsive behaviours, including EFZ, with a shape increasing continuosly with distance.
+Around residues like 310,180 and 172 it is possible to observe similar structures, with smaller peaks, indicating less dense shells. The other residues have in general more repulsive behaviours, including EFZ, with a shape increasing continuosly with distance.
 
 \begin{figure}[H]
     \centering
@@ -301,17 +301,17 @@ Around residues like 310,180 and 172 it is possible to observe similar structure
     \caption{Radial distribution function g(r) and running coordination number K(r) of water around active sites for the configuration Chain B + EFZ. g(r) in dark blue, K(r) in light blue.\label{fig:gofr_chain_b_efz}}
 \end{figure}
 
-In the second tested configuration (figure \ref{fig:gofr_chain_b_efz}) results were very similar, with the residue EFZ having a less repulsive behaviour, but the same continuos increase with distance. Residue 129 instead has a clear hydration cells at 2 \AA.
+In the second tested configuration (figure \ref{fig:gofr_chain_b_efz}) results were very similar, with the residue EFZ having a less repulsive behaviour, but the same continuos increase with distance. Residue 129 instead has a clear hydration cells at 2 \AA. 
 
 For the coordination numbers the only difference between different residues is related to the repulsivity, that influences in different ways the slope of the line.
 
-\subsection{RMSF and RMSD}
+\subsection{RMSD and RSMF}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../figures/rmsd.pdf}
     \caption{Global RSMD for the Chain A + EFZ case (a) and the Chain B + EFZ case (b).\label{fig:rmsd}}
 \end{figure}
-In both cases, as can be seen from figure \ref{fig:rmsd}, the complex RMSD remseble a global movement that seems to move the structure away from the original configuration. However, the small scale at which this phenomenon happens allows to conclude that the complex is in general stable and such fluctuations can be easily explained with the high temperature at which the simulation is done. The increasing trend of RMSD could be eventually verified in longer simulations to see if the value decreases at any time, meaning that the structure is returning to the original configuration.
+In both cases, as can be seen from figure \ref{fig:rmsd}, the complex's RMSD resembles a global movement that seems to move the structure away from the original configuration. However, the small scale at which this phenomenon happens allows to conclude that the complex is in general stable and such fluctuations can be easily explained with the high temperature at which the simulation is done. The increasing trend of RMSD could be eventually verified in longer simulations to see if the value decreases at any time, meaning that the structure is returning to the original configuration.
 
 \begin{figure}[H]
     \centering
@@ -319,7 +319,7 @@ In both cases, as can be seen from figure \ref{fig:rmsd}, the complex RMSD remse
     \caption{RSMF of the EFZ residue for the Chain A + EFZ case (a) and the Chain B + EFZ case (b).\label{fig:rmsf}}
 \end{figure}
 
-The RMSF in figure \ref{fig:rmsf} of EFZ shows instead how the of EFZ behaves during the simulation, confirming that the ones from 20 to 25 (all hydrogens) are the ones which moves the most, together with atom 0(Chlorine),17(Carbon N°11) and 18(Carbon N°12) in the first case and 17(Carbon N°11),18(Carbon N°12) in the second one. This result makes sense given that the Chloride atoms represent an extremity of the aromatic ring, while the two carbons can be found inside a triangular formation of three carbon atoms with apparently a large movement freedom.
+The RMSF in figure \ref{fig:rmsf} of EFZ shows instead how the of EFZ behaves during the simulation, confirming that the ones from 20 to 25 (all hydrogens) are the ones which moves the most, together with atom 0 (Chlorine), 17 (Carbon N°11) and 18 (Carbon N°12) in the first case and 17 (Carbon N°11), 18 (Carbon N°12) in the second one. This result makes sense given that the chlorine atoms represent an extremity of the aromatic ring, while the two carbons can be found inside a triangular formation of three carbon atoms with apparently a large movement freedom.
 
 \begin{figure}
     \centering
@@ -337,16 +337,16 @@ The RMSF in figure \ref{fig:rmsf} of EFZ shows instead how the of EFZ behaves du
 
 In figure \ref{fig:dist}, the position of EFZ's atoms with respect to the active site was calculated along the simulation. For the first tested configuration (Chain A + EFZ) it can be seen that the distance is in average stable, with some bouncing between a minimum and a maximum value, probably associated to temperature.
 
-In the second configuration the trend is instead different, with a slower movement towards the active residue, that allows the substrate to reach a minimum distance in the middle of the simulation. This last configuration is not be a stable one, since, as it can be noticed, with the distance increasing in following steps, and the residues moving away from each other.
+In the second configuration the trend is instead different, with a slower movement towards the active residue, that allows the substrate to reach a minimum distance in the middle of the simulation. This last configuration seems not a stable one, since, as it can be noticed, with the distance increasing in following steps, the residues moved away from each other.
 
 \section{Conclusions}
-The simulation carried out with the molecular dynamics techniques allowed to take an  experimental structure and merge it with theoretical potentials to get a complete model of the complex to simulate. Through Amber\cite{Amber} it was also possible to put the system in a preequilibrated box of water and try to replicate experimental condition with the use of periodic boundary conditions. This new system was ready to be heaten up and then simulated for a long period in order to understand its behaviour.
+The simulation carried out with the molecular dynamics techniques allowed to take an  experimental structure and merge it with theoretical potentials to get a complete model of the complex to simulate. Through Amber\cite{Amber} it was also possible to put the system in a preequilibrated box of water and try to replicate experimental conditions with the use of periodic boundary conditions. This new system was ready to be heaten up and then simulated for a long period in order to understand its behaviour.
 
 The analysis returned a lot of insights on the behavior of water around the simulated configurations. Thanks to the calculation of g(r)[\ref{eq:gofr}] and K(r)[\ref{eq:kofr}] it was possible to study the actual distribution of water molecules around active sites. In particular the g(r) computation allowed to appreciate the presence of hydration shells around some residues, while observing hydrofobicity in other ones. 
 
 The analysis of RMSD of the full protein instead allowed understanding if and how the simulated complex was able to stabilize around a configuration or not, while the RMSF calculation for EFZ improved the understanding of the residue mobility along the simulation, and in particular what atoms moved the most from the original configuration.
 
-Finally, the distance of EFZ from the active site allowed understanding how much the substrate actually moved in a water solution, with respect to the active site, unveiling clear trends, such as for the Chain B + EFZ configuration, in which the residue came closer to the main chain. 
+Finally, the distance of EFZ from the active site allowed understanding how much the substrate actually moved in a water solution, with respect to the active site, unveiling clear trends, such as for the Chain B + EFZ configuration, in which the residue came closer to the main chain and then moved away. 
 
 Further measurements could eventually test the same complexes using MonteCarlo techniques to improve the accuracy of measurements and analytics.
 \section{Source code}
